@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Board from './Board';
 import GameOver from './GameOver';
 import GameState from './GameState';
+import Reset from './Reset';
 
 const PLAYER_X = 'X';
 const PLAYER_O = 'O';
@@ -34,7 +35,18 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
       tileValue1 === tileValue3
     ) {
       setStrikeClass(strikeClass);
+      if (tileValue1 === PLAYER_X) {
+        setGameState(GameState.playerXWins);
+      } else {
+        setGameState(GameState.playerOWins);
+      }
+      return;
     }
+  }
+
+  const areAllTilesFilledIn = tiles.every((tile) => tile !== null);
+  if (areAllTilesFilledIn) {
+    setGameState(GameState.draw);
   }
 }
 
@@ -44,22 +56,47 @@ function TicTacToe() {
   const [strikeClass, setStrikeClass] = useState();
   const [gameState, setGameState] = useState(GameState.inProgress);
 
-  const handelTileClick = (index) => {};
+  const handleTileClick = (index) => {
+    if (gameState !== GameState.inProgress) {
+      return;
+    }
+
+    if (tiles[index] !== null) {
+      return;
+    }
+
+    const newTiles = [...tiles];
+    newTiles[index] = playerTurn;
+    setTiles(newTiles);
+    if (playerTurn === PLAYER_X) {
+      setPlayerTurn(PLAYER_O);
+    } else {
+      setPlayerTurn(PLAYER_X);
+    }
+  };
+
+  const handleReset = () => {
+    setGameState(GameState.inProgress);
+    setTiles(Array(9).fill(null));
+    setPlayerTurn(PLAYER_X);
+    setStrikeClass(null);
+  };
 
   useEffect(() => {
-    checkWinner(tiles, setStrikeClass);
+    checkWinner(tiles, setStrikeClass, setGameState);
   }, [tiles]);
 
   return (
     <div>
-      Tic Tac Toe
+      <h1>Tic Tac Toe</h1>
       <Board
         playerTurn={playerTurn}
         tiles={tiles}
-        onTileClick={handelTileClick}
+        onTileClick={handleTileClick}
         strikeClass={strikeClass}
       />
       <GameOver gameState={gameState} />
+      <Reset gameState={gameState} onReset={handleReset} />
     </div>
   );
 }
