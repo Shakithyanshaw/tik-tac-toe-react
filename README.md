@@ -34,6 +34,52 @@ The game automatically detects the winner or declares a draw when all squares ar
 
 ---
 
+## 🧠 Game Logic
+
+- The board consists of 9 squares.
+- Each square updates based on the current player.
+- The app checks for 8 possible winning combinations:
+  - 3 rows
+  - 3 columns
+  - 2 diagonals
+- When a winner is found, the game stops.
+- If all squares are filled without a winner → it's a draw.
+
+---
+
+## 📸 How It Works
+
+1. Player X starts first.
+2. Players alternate turns.
+3. The game highlights the winner (if implemented).
+4. Users can reset the game anytime.
+
+---
+
+## 🎯 Learning Objectives
+
+This project helped practice:
+
+- Functional components
+- useState hook
+- Conditional rendering
+- Event handling in React
+- Component reusability
+- Basic game logic implementation
+
+---
+
+## 🌍 Future Improvements
+
+- Add score tracking system
+- Add AI (Single Player mode)
+- Add sound effects
+- Add animations
+- Improve UI design
+- Add dark mode
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
